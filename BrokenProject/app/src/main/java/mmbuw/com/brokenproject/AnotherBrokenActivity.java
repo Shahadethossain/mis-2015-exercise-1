@@ -19,10 +19,13 @@ import java.io.IOException;
 
 import mmbuw.com.brokenproject.R;
 
+
 public class AnotherBrokenActivity extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_another_broken);
 

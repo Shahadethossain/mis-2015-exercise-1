@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 
 public class BrokenActivity extends Activity {
+    public static String EXTRA_MESSAGE="bla bla bla";
 
     private EditText auntEdith;
 
@@ -40,7 +42,7 @@ public class BrokenActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void brokenFunction(){
+    public void brokenFunction(View v){
         //I was once, perhaps, possibly a functioning function
         if (auntEdith.getText().toString().equals("Timmy")){
             System.out.println("Timmy fixed a bug!");
