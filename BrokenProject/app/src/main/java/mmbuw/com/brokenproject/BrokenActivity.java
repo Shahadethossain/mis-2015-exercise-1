@@ -1,4 +1,7 @@
 // MIS Exercise 1
+// Bauhaus University Weimar
+// Shahadet Hossain
+
 package mmbuw.com.brokenproject;
 
 import android.app.Activity;
