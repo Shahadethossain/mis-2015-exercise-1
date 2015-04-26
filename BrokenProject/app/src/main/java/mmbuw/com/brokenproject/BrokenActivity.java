@@ -1,6 +1,7 @@
 // MIS Exercise 1
 // Bauhaus University Weimar
-// Shahadet Hossain
+// Shahadet Hossain 115251
+
 
 package mmbuw.com.brokenproject;
 
@@ -17,12 +18,12 @@ public class BrokenActivity extends Activity {
     public static String EXTRA_MESSAGE="bla bla bla";
 
     private EditText auntEdith;
-
+    private EditText auntEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broken);
-        EditText auntEdit = (EditText)findViewById(R.id.edittext);
+        auntEdit = (EditText)findViewById(R.id.edittext);
     }
 
 
@@ -47,7 +48,7 @@ public class BrokenActivity extends Activity {
 
     public void brokenFunction(View v){
         //I was once, perhaps, possibly a functioning function
-        if (auntEdith.getText().toString().equals("Timmy")){
+        if (auntEdit.getText().toString().equals("Timmy")){
             System.out.println("Timmy fixed a bug!");
         }
 
