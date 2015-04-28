@@ -1,3 +1,4 @@
+// MIS Exercise
 package mmbuw.com.brokenproject;
 
 import android.app.Activity;
@@ -71,7 +72,7 @@ public class AnotherBrokenActivity extends Activity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
 
-        show_text.setText("" + message);
+        show_text.setText("URL : " + message);
 
         WebUrl = message;
 
