@@ -1,26 +1,52 @@
 package mmbuw.com.brokenproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 
 import mmbuw.com.brokenproject.R;
 
 
 public class AnotherBrokenActivity extends Activity {
+    private EditText senddata_txt;
+    private Button send_btn;
+    private TextView show_text;
+    private TextView show_output;
+    private String WebUrl = "";
+    private static final String DEBUG_TAG = "HttpExample";
 
 
     @Override
@@ -29,23 +55,50 @@ public class AnotherBrokenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_another_broken);
 
+        send_btn = (Button) findViewById(R.id.send_btn);
+        show_text = (TextView) findViewById(R.id.show_text);
+        show_output = (TextView) findViewById(R.id.show_text);
+
         Intent intent = getIntent();
-        String message = intent.getStringExtra(BrokenActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra("message");
         //What happens here? What is this? It feels like this is wrong.
         //Maybe the weird programmer who wrote this forgot to do something?
 
+        Context context = getApplicationContext();
+        CharSequence text = "From Another : " + message;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        show_text.setText("" + message);
+
+        WebUrl = message;
+
     }
 
+    public void WebResponse(View v){
+
+        HTTPHelper hp = new HTTPHelper();
+
+        String output = hp.retrieve("" + WebUrl);
+
+        show_output.setText("" + output);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.another_broken, menu);
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -56,35 +109,38 @@ public class AnotherBrokenActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void fetchHTML(View view) throws IOException {
+    public class HTTPHelper {
 
-        //According to the exercise, you will need to add a button and an EditText first.
-        //Then, use this function to call your http requests
-        //Following hints:
-        //Android might not enjoy if you do Networking on the main thread, but who am I to judge?
-        //An app might not be allowed to access the internet without the right (*hinthint*) permissions
-        //Below, you find a staring point for your HTTP Requests - this code is in the wrong place and lacks the allowance to do what it wants
-        //It will crash if you just un-comment it.
+        public String retrieve(String url){
+            DefaultHttpClient client = new DefaultHttpClient();
 
-        /*
-        Beginning of helper code for HTTP Request.
+            try{
 
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response = client.execute(new HttpGet("http://lmgtfy.com/?q=android+ansync+task"));
-        StatusLine status = response.getStatusLine();
-        if (status.getStatusCode() == HttpStatus.SC_OK){
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            response.getEntity().writeTo(outStream);
-            String responseAsString = outStream.toString();
-             System.out.println("Response string: "+responseAsString);
-        }else {
-            //Well, this didn't work.
-            response.getEntity().getContent().close();
-            throw new IOException(status.getReasonPhrase());
+                HttpGet getReq = new HttpGet(url);
+                HttpResponse getResponse = client.execute(getReq);
+                int statusCode = getResponse.getStatusLine().getStatusCode();
+
+                if(statusCode == HttpStatus.SC_OK){
+                    HttpEntity entity = getResponse.getEntity();
+                    if(entity != null){
+                        String responseStr = EntityUtils.toString(entity);
+                        return responseStr;
+                    }
+                    else{
+                        return null;
+                    }
+                }
+            }catch(ClientProtocolException e){
+                e.printStackTrace();
+                return null;
+            }catch (IOException e){
+                e.printStackTrace();
+                return null;
+            }catch (IllegalStateException e){
+                e.printStackTrace();
+                return null;
+            }
+            return null;
         }
-
-          End of helper code!
-
-                  */
     }
 }

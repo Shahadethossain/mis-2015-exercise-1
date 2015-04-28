@@ -6,12 +6,15 @@
 package mmbuw.com.brokenproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class BrokenActivity extends Activity {
@@ -19,11 +22,13 @@ public class BrokenActivity extends Activity {
 
     private EditText auntEdith;
     private EditText auntEdit;
+    private Button bts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broken);
         auntEdit = (EditText)findViewById(R.id.edittext);
+        bts = (Button)findViewById(R.id.bts);
     }
 
 
@@ -47,6 +52,16 @@ public class BrokenActivity extends Activity {
     }
 
     public void brokenFunction(View v){
+
+
+        Context context = getApplicationContext();
+        CharSequence text = auntEdit.getText().toString();
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+
         //I was once, perhaps, possibly a functioning function
         if (auntEdit.getText().toString().equals("Timmy")){
             System.out.println("Timmy fixed a bug!");
@@ -54,7 +69,8 @@ public class BrokenActivity extends Activity {
 
         System.out.println("If this appears in your console, you fixed a bug.");
         Intent intent = new Intent(this,AnotherBrokenActivity.class);
-        String message = "This string will be passed to the new activity";
+        String message = auntEdit.getText().toString();
+        intent.putExtra("message", message);
         startActivity(intent);
     }
 }
